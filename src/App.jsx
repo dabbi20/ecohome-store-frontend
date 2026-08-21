@@ -8,14 +8,10 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import PrivateLayout from "./layouts/PrivateLayout.jsx";
 
 import LoginPage from "./pages/LoginPage.jsx";
+import RegisterPage from "./pages/RegisterPage.jsx";
 import ChatPage from "./pages/ChatPage.jsx";
 import ProductsPage from "./pages/ProductsPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
-
-
-function RegisterPage() {
-    return <h1>Registro - EcoHome Store</h1>;
-}
 
 
 function App() {
