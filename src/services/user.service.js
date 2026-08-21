@@ -12,6 +12,7 @@ export async function getMyProfile() {
     );
 
     return response.data;
+
 }
 
 
@@ -26,6 +27,7 @@ export async function getMyStats() {
     );
 
     return response.data;
+
 }
 
 
@@ -37,6 +39,42 @@ export async function getMyProducts() {
 
     const response = await api.get(
         "/users/me/products"
+    );
+
+    return response.data;
+
+}
+
+
+// ========================================
+// ACTUALIZAR PERFIL
+// ========================================
+
+export async function updateMyProfile(data) {
+
+    const response = await api.patch(
+        "/users/me",
+        data
+    );
+
+    return response.data;
+
+}
+
+// ========================================
+// CAMBIAR CONTRASEÑA
+// ========================================
+
+export async function changeMyPassword(
+    currentPassword,
+    newPassword
+) {
+    const response = await api.patch(
+        "/users/me/password",
+        {
+            currentPassword,
+            newPassword
+        }
     );
 
     return response.data;
