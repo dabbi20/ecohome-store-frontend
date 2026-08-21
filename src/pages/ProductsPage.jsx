@@ -7,13 +7,20 @@ import {
     deleteProduct
 } from "../services/product.service.js";
 
+import {
+    getMyStats,
+    getMyProducts
+} from "../services/user.service.js";
+
 import { useAuth } from "../context/useAuth.js";
+
 
 export default function ProductsPage() {
 
     const { user } = useAuth();
 
     const [products, setProducts] = useState([]);
+    const [myProducts, setMyProducts] = useState([]);
 
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
@@ -21,22 +28,34 @@ export default function ProductsPage() {
     const [editingId, setEditingId] = useState(null);
 
     const [loading, setLoading] = useState(true);
+
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
 
+    const [userStats, setUserStats] = useState(null);
+
+
     // ========================================
-    // CARGAR PRODUCTOS
+    // CARGAR PRODUCTOS Y DATOS DEL USUARIO
     // ========================================
 
     useEffect(() => {
 
-        async function loadProducts() {
+        async function loadData() {
 
             try {
 
-                const data = await getProducts();
+                const productsData = await getProducts();
 
-                setProducts(data);
+                const statsData = await getMyStats();
+
+                const myProductsData = await getMyProducts();
+
+                setProducts(productsData);
+
+                setUserStats(statsData);
+
+                setMyProducts(myProductsData);
 
             } catch (error) {
 
@@ -44,7 +63,7 @@ export default function ProductsPage() {
 
                 setError(
                     error.response?.data?.message ||
-                    "Error cargando productos"
+                    "Error cargando información"
                 );
 
             } finally {
@@ -54,9 +73,10 @@ export default function ProductsPage() {
             }
         }
 
-        loadProducts();
+        loadData();
 
     }, []);
+
 
     // ========================================
     // PREPARAR EDICIÓN
@@ -74,6 +94,7 @@ export default function ProductsPage() {
 
         setSuccess("");
     }
+
 
     // ========================================
     // CREAR O ACTUALIZAR PRODUCTO
@@ -105,7 +126,21 @@ export default function ProductsPage() {
                 setProducts((currentProducts) =>
                     currentProducts.map((product) =>
                         product.id === editingId
-                            ? data.product
+                            ? {
+                                ...product,
+                                ...data.product
+                            }
+                            : product
+                    )
+                );
+
+                setMyProducts((currentProducts) =>
+                    currentProducts.map((product) =>
+                        product.id === editingId
+                            ? {
+                                ...product,
+                                ...data.product
+                            }
                             : product
                     )
                 );
@@ -127,10 +162,37 @@ export default function ProductsPage() {
                     price
                 });
 
+                const newProduct = {
+                    ...data.product,
+                    created_by_username: user?.username
+                };
+
                 setProducts((currentProducts) => [
                     ...currentProducts,
-                    data.product
+                    newProduct
                 ]);
+
+                setMyProducts((currentProducts) => [
+                    ...currentProducts,
+                    newProduct
+                ]);
+
+                // ========================================
+                // ACTUALIZAR CONTADOR
+                // ========================================
+
+                setUserStats((currentStats) => {
+
+                    if (!currentStats) {
+                        return currentStats;
+                    }
+
+                    return {
+                        ...currentStats,
+                        products_created:
+                            currentStats.products_created + 1
+                    };
+                });
 
                 setSuccess(
                     "Producto creado correctamente"
@@ -150,6 +212,7 @@ export default function ProductsPage() {
             );
         }
     }
+
 
     // ========================================
     // ELIMINAR PRODUCTO
@@ -178,6 +241,39 @@ export default function ProductsPage() {
                 )
             );
 
+            const belongsToCurrentUser =
+                myProducts.some(
+                    (product) => product.id === id
+                );
+
+            setMyProducts((currentProducts) =>
+                currentProducts.filter(
+                    (product) => product.id !== id
+                )
+            );
+
+            // ========================================
+            // DISMINUIR CONTADOR
+            // ========================================
+
+            if (belongsToCurrentUser) {
+
+                setUserStats((currentStats) => {
+
+                    if (!currentStats) {
+                        return currentStats;
+                    }
+
+                    return {
+                        ...currentStats,
+                        products_created: Math.max(
+                            0,
+                            currentStats.products_created - 1
+                        )
+                    };
+                });
+            }
+
             if (editingId === id) {
 
                 setEditingId(null);
@@ -202,6 +298,7 @@ export default function ProductsPage() {
         }
     }
 
+
     // ========================================
     // CANCELAR EDICIÓN
     // ========================================
@@ -219,28 +316,42 @@ export default function ProductsPage() {
         setSuccess("");
     }
 
+
     // ========================================
     // LOADING
     // ========================================
 
     if (loading) {
+
         return <p>Cargando productos...</p>;
     }
 
+
     return (
+
         <div>
 
             <h1>EcoHome Store</h1>
 
             <h2>Productos</h2>
 
+
+            {/* ========================================
+                USUARIO AUTENTICADO + CONTADOR
+            ======================================== */}
+
             <p>
                 Usuario: {user?.username}
+
+                {userStats && (
+                    <> ({userStats.products_created})</>
+                )}
             </p>
 
             <p>
                 Rol: {user?.role}
             </p>
+
 
             {/* ========================================
                 FORMULARIO SOLO PARA ADMIN
@@ -268,6 +379,7 @@ export default function ProductsPage() {
 
                     </div>
 
+
                     <div>
 
                         <label htmlFor="price">
@@ -287,6 +399,7 @@ export default function ProductsPage() {
 
                     </div>
 
+
                     <button type="submit">
 
                         {editingId
@@ -294,6 +407,7 @@ export default function ProductsPage() {
                             : "Crear producto"}
 
                     </button>
+
 
                     {editingId && (
 
@@ -308,6 +422,7 @@ export default function ProductsPage() {
 
                 </form>
             )}
+
 
             {/* ========================================
                 MENSAJES
@@ -325,11 +440,15 @@ export default function ProductsPage() {
                 </p>
             )}
 
+
             <hr />
 
+
             {/* ========================================
-                LISTA DE PRODUCTOS
+                TODOS LOS PRODUCTOS
             ======================================== */}
+
+            <h2>Todos los productos</h2>
 
             {products.length === 0 ? (
 
@@ -352,6 +471,15 @@ export default function ProductsPage() {
                             {" - $"}
 
                             {product.price}
+
+                            {" - "}
+
+                            <span>
+                                Creado por: {
+                                    product.created_by_username
+                                }
+                            </span>
+
 
                             {/* ========================
                                 BOTONES SOLO PARA ADMIN
@@ -384,15 +512,56 @@ export default function ProductsPage() {
                                     </button>
 
                                 </>
-
                             )}
 
                         </li>
-
                     ))}
 
                 </ul>
+            )}
 
+
+            <hr />
+
+
+            {/* ========================================
+                PRODUCTOS DEL USUARIO AUTENTICADO
+            ======================================== */}
+
+            <h2>Mis productos</h2>
+
+            <p>
+                Productos creados: {
+                    userStats?.products_created ?? 0
+                }
+            </p>
+
+            {myProducts.length === 0 ? (
+
+                <p>
+                    No has creado productos.
+                </p>
+
+            ) : (
+
+                <ul>
+
+                    {myProducts.map((product) => (
+
+                        <li key={product.id}>
+
+                            <strong>
+                                {product.name}
+                            </strong>
+
+                            {" - $"}
+
+                            {product.price}
+
+                        </li>
+                    ))}
+
+                </ul>
             )}
 
         </div>
