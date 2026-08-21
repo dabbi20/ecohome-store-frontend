@@ -1,877 +1,627 @@
-EcoHome Store Frontend**
-Frontend desarrollado con **React y Vite** para la plataforma
-EcoHome Store.
-La aplicación se conecta con una API REST desarrollada en Node.js y
-Express, permitiendo autenticación mediante JWT, gestión de productos
-según roles de usuario y comunicación en tiempo real mediante Socket.IO.
+# EcoHome Store Frontend
+
+Frontend desarrollado con **React y Vite** para la plataforma **EcoHome
+Store**.
+
+La aplicación se conecta con una API REST desarrollada en **Node.js y
+Express**, permitiendo autenticación mediante JWT, gestión de productos
+según roles de usuario, administración del perfil y comunicación en
+tiempo real mediante Socket.IO.
+
 El frontend forma parte de una solución full stack compuesta por:
-React
-Node.js
-Express
-PostgreSQL
-JWT
-Socket.IO
----
-Funcionalidades principales**
+
+-   React
+-   Node.js
+-   Express
+-   PostgreSQL
+-   JWT
+-   Socket.IO
+
+------------------------------------------------------------------------
+
+## Funcionalidades principales
+
 La aplicación implementa:
-Inicio de sesión.
-Autenticación mediante JWT.
-Persistencia de sesión mediante `localStorage`.
-Rutas protegidas.
-Control visual basado en roles.
-Consulta de productos.
-Creación de productos para administradores.
-Actualización de productos para administradores.
-Eliminación de productos para administradores.
-Chat interno autenticado.
-Comunicación en tiempo real mediante Socket.IO.
-Historial de los últimos 10 mensajes.
-Persistencia de mensajes mediante PostgreSQL.
-Comunicación simultánea entre varios usuarios.
-Perfil del usuario autenticado.
-Consulta de estadísticas del usuario.
-Consulta de productos creados por el usuario.
-Edición de nombre de usuario y correo electrónico.
-Sincronización del perfil actualizado con AuthContext y
-`localStorage`.
-Cambio de contraseña desde el frontend.
-Confirmación de nueva contraseña.
-Manejo de estados de carga, éxito y error en el perfil.
----
-Tecnologías utilizadas**
-React
-Vite
-JavaScript
-Axios
-React Router DOM
-Socket.IO Client
-HTML5
-CSS3
-LocalStorage
----
-Arquitectura del frontend**
-El proyecto se encuentra organizado separando responsabilidades entre
-componentes, páginas, servicios, contexto de autenticación y
-comunicación con la API.
+
+-   Inicio de sesión y registro de usuarios.
+-   Autenticación mediante JWT.
+-   Persistencia de sesión mediante `localStorage`.
+-   Rutas públicas y protegidas.
+-   Control visual basado en roles.
+-   Consulta de productos.
+-   Creación, actualización y eliminación de productos para
+    administradores.
+-   Chat interno autenticado.
+-   Comunicación en tiempo real mediante Socket.IO.
+-   Historial de los últimos 10 mensajes.
+-   Persistencia de mensajes mediante PostgreSQL.
+-   Comunicación simultánea entre varios usuarios.
+-   Perfil del usuario autenticado.
+-   Consulta de estadísticas del usuario.
+-   Consulta de productos creados por el usuario.
+-   Edición de nombre de usuario y correo electrónico.
+-   Sincronización del perfil actualizado con `AuthContext` y
+    `localStorage`.
+-   Cambio de contraseña desde el frontend.
+-   Confirmación de nueva contraseña.
+-   Manejo de estados de carga, éxito y error.
+
+------------------------------------------------------------------------
+
+## Tecnologías utilizadas
+
+-   React
+-   Vite
+-   JavaScript
+-   Axios
+-   React Router DOM
+-   Socket.IO Client
+-   HTML5
+-   CSS3
+-   LocalStorage
+
+------------------------------------------------------------------------
+
+## Arquitectura del frontend
+
+El proyecto separa las responsabilidades entre API, componentes,
+contexto de autenticación, layouts, páginas, servicios y comunicación en
+tiempo real.
+
 ``` text
-
 store-frontend/
-
 ├── public/
-
 ├── src/
-
-│   ├── api/
-
-│   │   └── api.js
-
-│   │
-
-│   ├── assets/
-
-│   │
-
-│   ├── components/
-
-│   │   └── ProtectedRoute.jsx
-
-│   │
-
-│   ├── context/
-
-│   │   ├── authContext.js
-
-│   │   ├── AuthContext.jsx
-
-│   │   └── useAuth.js
-
-│   │
-
-│   ├── pages/
-
-│   │   ├── LoginPage.jsx
-
-│   │   ├── ProductsPage.jsx
-
-│   │   └── ChatPage.jsx
-
-│   │
-
-│   ├── services/
-
-│   │   ├── auth.service.js
-
-│   │   └── product.service.js
-
-│   │
-
-│   ├── socket/
-
-│   │   └── socket.js
-
-│   │
-
-│   ├── App.css
-
-│   ├── App.jsx
-
-│   ├── index.css
-
-│   └── main.jsx
-
-│
-
+│   ├── api/
+│   │   └── api.js
+│   ├── assets/
+│   ├── components/
+│   │   ├── Navbar.jsx
+│   │   ├── ProtectedRoute.jsx
+│   │   └── PublicRoute.jsx
+│   ├── context/
+│   │   ├── authContext.js
+│   │   ├── AuthContext.jsx
+│   │   ├── AuthProvider.jsx
+│   │   └── useAuth.js
+│   ├── layouts/
+│   │   └── PrivateLayout.jsx
+│   ├── pages/
+│   │   ├── ChatPage.jsx
+│   │   ├── LoginPage.jsx
+│   │   ├── ProductsPage.jsx
+│   │   ├── ProfilePage.jsx
+│   │   └── RegisterPage.jsx
+│   ├── services/
+│   │   ├── auth.service.js
+│   │   ├── product.service.js
+│   │   └── user.service.js
+│   ├── socket/
+│   │   └── socket.js
+│   ├── App.css
+│   ├── App.jsx
+│   ├── index.css
+│   └── main.jsx
 ├── .gitignore
-
 ├── eslint.config.js
-
 ├── index.html
-
 ├── package.json
-
 ├── package-lock.json
-
 ├── vite.config.js
-
 └── README.md
 ```
----
-Requisitos previos**
+
+------------------------------------------------------------------------
+
+## Requisitos previos
+
 Antes de ejecutar el proyecto es necesario tener instalado:
-Node.js
-npm
-Backend de EcoHome Store ejecutándose
-PostgreSQL configurado para el backend
----
-Instalación**
-1. Clonar el repositorio**
-``` bash
 
+-   Node.js
+-   npm
+-   Backend de EcoHome Store ejecutándose
+-   PostgreSQL configurado para el backend
+
+------------------------------------------------------------------------
+
+## Instalación
+
+### 1. Clonar el repositorio
+
+``` bash
 git clone https://github.com/dabbi20/ecohome-store-frontend.git
-```
-Entrar al proyecto:
-``` bash
-
 cd ecohome-store-frontend
 ```
----
-2. Instalar dependencias**
-``` bash
 
+### 2. Instalar dependencias
+
+``` bash
 npm install
 ```
-Las principales dependencias utilizadas son:
+
+Principales dependencias:
+
 ``` text
-
 axios
-
 react-router-dom
-
 socket.io-client
 ```
----
-Ejecutar el frontend**
-Ejecutar:
-``` bash
 
+------------------------------------------------------------------------
+
+## Ejecutar el frontend
+
+``` bash
 npm run dev
 ```
+
 Vite iniciará normalmente la aplicación en:
-``` text
 
+``` text
 http://localhost:5173
 ```
----
-Backend requerido**
-El frontend necesita que la API de EcoHome Store esté ejecutándose en:
-``` text
 
+El backend debe estar ejecutándose en:
+
+``` text
 http://localhost:3000
 ```
-Por lo tanto, para trabajar correctamente se deben ejecutar
-simultáneamente:
+
+------------------------------------------------------------------------
+
+## Comunicación con la API
+
+Las solicitudes HTTP se realizan mediante Axios desde:
+
 ``` text
-
-Frontend:
-
-http://localhost:5173
-
-Backend:
-
-http://localhost:3000
-```
----
-Comunicación con la API**
-La comunicación HTTP se realiza mediante Axios.
-La configuración principal se encuentra en:
-``` text
-
 src/api/api.js
 ```
-Ejemplo:
-``` javascript
 
+El interceptor agrega automáticamente el JWT a las solicitudes
+protegidas:
+
+``` javascript
 import axios from "axios";
 
 const api = axios.create({
-
-    baseURL: "http://localhost:3000"
-
+    baseURL: "http://localhost:3000"
 });
 
-api.interceptors.request.use(
+api.interceptors.request.use((config) => {
+    const token = localStorage.getItem("token");
 
-    (config) => {
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
 
-        const token =
-
-            localStorage.getItem("token");
-
-        if (token) {
-
-            config.headers.Authorization =
-
-                `Bearer ${token}`;
-
-        }
-
-        return config;
-
-    },
-
-    (error) =>
-
-        Promise.reject(error)
-
-);
+    return config;
+});
 
 export default api;
 ```
-El interceptor permite enviar automáticamente el JWT en las solicitudes
-protegidas.
----
-Autenticación**
-La aplicación utiliza JWT para identificar al usuario autenticado.
-El proceso general es:
+
+------------------------------------------------------------------------
+
+## Autenticación
+
+El flujo general es:
+
 ``` text
-
-Login React
-
-    ↓
-
-POST /auth/login
-
-    ↓
-
+Login / Registro
+      ↓
+API REST
+      ↓
 Backend valida credenciales
-
-    ↓
-
-Generación JWT
-
-    ↓
-
-React recibe token + usuario
-
-    ↓
-
+      ↓
+JWT + usuario
+      ↓
 localStorage
-
-    ↓
-
+      ↓
 AuthContext
+      ↓
+Rutas privadas
 ```
----
-Persistencia de sesión**
-Después de iniciar sesión se almacenan:
-``` text
 
-token
+El contexto de autenticación mantiene:
 
-user
-```
-en:
-``` text
+-   `token`
+-   `user`
+-   `login()`
+-   `logout()`
+-   `updateUser()`
+-   `isAuthenticated`
 
-localStorage
-```
-Esto permite conservar la sesión incluso después de actualizar la
-página.
----
-Context API**
-La autenticación global se administra mediante:
-``` text
+Los componentes acceden al contexto mediante:
 
-src/context/AuthContext.jsx
-```
-El contexto mantiene:
-``` text
-
-token
-
-user
-
-login()
-
-logout()
-
-updateUser()
-
-isAuthenticated
-```
-Los componentes pueden acceder a estos valores mediante:
 ``` javascript
-
 useAuth()
 ```
----
-Rutas**
-La aplicación utiliza React Router DOM.
-Entre las rutas disponibles se encuentran:
+
+------------------------------------------------------------------------
+
+## Rutas
+
+### Rutas públicas
+
 ``` text
-
 /login
-
 /register
+```
 
+### Rutas privadas
+
+``` text
 /products
-
+/chat
 /profile
-
-/chat
 ```
----
-Rutas protegidas**
-El componente:
-``` text
 
-src/components/ProtectedRoute.jsx
-```
-verifica si existe una sesión autenticada.
-Si el usuario intenta ingresar a una ruta protegida sin token:
-``` text
+`ProtectedRoute.jsx` impide acceder a las rutas privadas cuando no
+existe una sesión válida.
 
-/chat
-```
-es redirigido automáticamente a:
-``` text
+------------------------------------------------------------------------
 
-/login
-```
----
-Login**
-La pantalla de login permite introducir:
-Correo electrónico.
-Contraseña.
-Después de autenticarse correctamente:
-1. React recibe el JWT.
-2. Se almacena el token.
-3. Se almacena la información del usuario.
-4. El usuario obtiene acceso a las rutas protegidas.
----
-Roles**
+## Roles
+
 La aplicación utiliza dos roles:
-``` text
 
+``` text
 admin
-
 cliente
 ```
-Administrador**
-El administrador puede:
-Consultar productos.
-Crear productos.
-Editar productos.
-Eliminar productos.
-Acceder al chat.
-Cliente**
-El cliente puede:
-Consultar productos.
-Acceder al chat.
-No puede:
-Crear productos.
-Editar productos.
-Eliminar productos.
----
-Seguridad por roles**
-El frontend oculta los controles administrativos cuando el usuario tiene
-rol:
-``` text
 
-cliente
-```
-Por ejemplo:
-``` javascript
+### Administrador
 
-user?.role === "admin"
-```
-determina si se muestran:
-``` text
+Puede:
 
-Crear producto
+-   Consultar productos.
+-   Crear productos.
+-   Editar productos.
+-   Eliminar productos.
+-   Acceder al chat.
+-   Consultar y editar su perfil.
+-   Cambiar su contraseña.
 
-Editar
+### Cliente
 
-Eliminar
-```
-Es importante aclarar que esta validación visual no reemplaza la
-seguridad del backend.
-El backend también verifica los permisos y devuelve:
-``` text
+Puede:
 
-403 Forbidden
-```
-cuando un cliente intenta ejecutar directamente una operación reservada
-para administradores.
----
-Productos**
-La aplicación consume los endpoints REST del backend para gestionar
-productos.
----
-Listar productos**
+-   Consultar productos.
+-   Acceder al chat.
+-   Consultar y editar su perfil.
+-   Cambiar su contraseña.
+
+No puede crear, editar ni eliminar productos.
+
+> La validación visual del frontend no reemplaza la seguridad del
+> backend. El servidor también valida los permisos y puede responder con
+> `403 Forbidden`.
+
+------------------------------------------------------------------------
+
+## Productos
+
+### Listar productos
+
 ``` http
-
 GET /products
 ```
-Permite visualizar los productos almacenados en PostgreSQL.
----
-Crear producto**
-Disponible únicamente para administradores.
-``` http
 
+### Crear producto
+
+Disponible para administradores.
+
+``` http
 POST /products
 ```
-Ejemplo:
-``` json
 
-{
+### Actualizar producto
 
-  "name": "Bolsa reutilizable",
+Disponible para administradores.
 
-  "price": 8.99
-
-}
-```
----
-Actualizar producto**
-Disponible únicamente para administradores.
 ``` http
-
 PATCH /products/:id
 ```
-La interfaz permite seleccionar un producto mediante:
-``` text
 
-Editar
-```
-Los valores actuales se cargan en el formulario para permitir su
-modificación.
----
-Eliminar producto**
-Disponible únicamente para administradores.
+### Eliminar producto
+
+Disponible para administradores.
+
 ``` http
-
 DELETE /products/:id
 ```
-Antes de eliminar el producto se solicita confirmación al usuario.
----
-CRUD implementado**
-El frontend implementa completamente:
+
+El CRUD administrativo se encuentra implementado completamente:
+
 ``` text
-
-CREATE  ✅
-
-READ    ✅
-
-UPDATE  ✅
-
-DELETE  ✅
+CREATE  ✅
+READ    ✅
+UPDATE  ✅
+DELETE  ✅
 ```
-Las operaciones se sincronizan con PostgreSQL mediante el backend.
----
-Perfil del usuario
-La aplicación incluye una página protegida:
+
+------------------------------------------------------------------------
+
+## Perfil del usuario
+
+La página protegida:
+
 ``` text
 /profile
 ```
-implementada en:
+
+está implementada en:
+
 ``` text
 src/pages/ProfilePage.jsx
 ```
-La página consume los servicios definidos en:
+
+Los servicios relacionados se encuentran en:
+
 ``` text
 src/services/user.service.js
 ```
-y permite consultar y administrar información del usuario autenticado.
-Obtener perfil
+
+### Obtener perfil
+
 ``` http
 GET /users/me
 ```
-Al cargar `ProfilePage`, React solicita los datos del usuario y muestra:
-``` text
-id
-username
-email
-role
-created_at
-```
-Estadísticas
+
+Muestra información como:
+
+-   ID
+-   Nombre de usuario
+-   Email
+-   Rol
+-   Fecha de registro
+
+### Estadísticas
+
 ``` http
 GET /users/me/stats
 ```
-Actualmente se muestra la cantidad de productos creados por el usuario:
-``` text
-products_created
-```
-Productos del usuario
-El servicio también dispone de:
+
+Actualmente permite mostrar la cantidad de productos creados por el
+usuario.
+
+### Productos creados por el usuario
+
 ``` http
 GET /users/me/products
 ```
-para recuperar los productos asociados al usuario autenticado.
-Editar perfil
+
+### Editar perfil
+
 ``` http
 PATCH /users/me
 ```
-Desde la interfaz pueden modificarse:
+
+Permite modificar:
+
 ``` text
 username
 email
 ```
-Ejemplo:
-``` javascript
-await updateMyProfile({
-    username,
-    email
-});
-```
-Después de una actualización correcta, la página actualiza su estado
-local y también ejecuta:
+
+Después de actualizar correctamente el perfil, React actualiza el estado
+de la página y también ejecuta:
+
 ``` javascript
 updateUser(data.user);
 ```
-Esto sincroniza la información global de autenticación y `localStorage`,
-evitando que componentes como el `Navbar` sigan mostrando datos
-antiguos.
-Cambiar contraseña
+
+De esta forma `AuthContext` y `localStorage` conservan la información
+actualizada.
+
+------------------------------------------------------------------------
+
+## Cambio de contraseña
+
+El usuario puede cambiar su contraseña desde su perfil mediante:
+
 ``` http
 PATCH /users/me/password
 ```
+
 El formulario solicita:
-``` text
-Contraseña actual
-Nueva contraseña
-Confirmar nueva contraseña
-```
-El frontend valida la confirmación antes de enviar la solicitud.
-El servicio utiliza:
+
+-   Contraseña actual.
+-   Nueva contraseña.
+-   Confirmación de nueva contraseña.
+
+Antes de enviar la solicitud, el frontend comprueba que la nueva
+contraseña y su confirmación coincidan.
+
+La comunicación se realiza mediante:
+
 ``` javascript
-changeMyPassword(
-    currentPassword,
-    newPassword
-);
+changeMyPassword(currentPassword, newPassword);
 ```
-El backend es responsable de comprobar la contraseña actual y almacenar
-de forma segura el nuevo hash.
-Estados de interfaz
-`ProfilePage` administra estados independientes para:
-``` text
-loading
-saving
-error
-message
-```
-Esto permite informar al usuario mientras se cargan datos, se guardan
-cambios o ocurre un error.
----
-Chat interno**
-La aplicación incluye un módulo de chat en tiempo real.
-La conexión se realiza mediante:
-``` text
 
-Socket.IO Client
-```
-Archivo responsable:
-``` text
+El backend verifica la contraseña actual y almacena el hash de la nueva
+contraseña.
 
+------------------------------------------------------------------------
+
+## Chat interno
+
+La aplicación incluye un chat autenticado en tiempo real mediante
+**Socket.IO Client**.
+
+Archivo principal:
+
+``` text
 src/socket/socket.js
 ```
----
-Autenticación del Socket**
-Al crear la conexión Socket.IO se envía el JWT:
+
+La conexión envía el JWT durante el handshake:
+
 ``` javascript
-
 io("http://localhost:3000", {
-
-    auth: {
-
-        token
-
-    }
-
+    auth: {
+        token
+    }
 });
 ```
-El backend verifica este token antes de permitir que el usuario se
-conecte.
----
-Historial de mensajes**
-Cuando un usuario entra al chat, el backend consulta PostgreSQL y envía:
-``` text
 
-los últimos 10 mensajes
-```
-mediante el evento:
-``` text
+El backend verifica el token antes de aceptar la conexión.
 
+### Historial
+
+Al entrar al chat, el backend recupera de PostgreSQL los últimos 10
+mensajes y los envía mediante:
+
+``` text
 message-history
 ```
-React recibe el historial y lo renderiza automáticamente.
----
-Envío de mensajes**
-Cuando el usuario envía un mensaje:
+
+### Envío
+
 ``` javascript
-
 socket.emit("new-message", {
-
-    text: cleanText
-
+    text: cleanText
 });
 ```
-el backend:
-1. Recibe el mensaje.
-2. Identifica al usuario mediante el JWT.
-3. Guarda el mensaje en PostgreSQL.
-4. Envía el mensaje a todos los clientes conectados.
----
-Recepción en tiempo real**
-Los clientes escuchan:
+
+El backend identifica al usuario, guarda el mensaje y lo distribuye a
+los clientes conectados.
+
+### Recepción
+
 ``` javascript
-
-socket.on("new-message", **...**)
+socket.on("new-message", ...);
 ```
-De esta manera un mensaje enviado desde un navegador aparece
-inmediatamente en los demás usuarios conectados sin recargar la página.
----
-Persistencia del chat**
-Los mensajes no dependen únicamente de la memoria de Node.js.
-Cada mensaje se almacena en PostgreSQL.
-Esto permite que:
+
+Los mensajes aparecen en tiempo real sin recargar la página.
+
+------------------------------------------------------------------------
+
+## Persistencia del chat
+
+Los mensajes se almacenan en PostgreSQL.
+
 ``` text
-
 Servidor apagado
-
-      ↓
-
+      ↓
 Servidor reiniciado
-
-      ↓
-
-Usuario entra nuevamente
-
-      ↓
-
+      ↓
+Usuario vuelve al chat
+      ↓
 Historial continúa disponible
 ```
----
-Prueba con múltiples usuarios**
-Se realizaron pruebas utilizando dos sesiones simultáneas:
-``` text
 
-Usuario 1:
+------------------------------------------------------------------------
 
-admin
+## Pruebas realizadas
 
-Usuario 2:
-
-cliente1
-```
-Se comprobó que:
-Ambos usuarios reciben el mismo historial.
-Un mensaje enviado por `admin` aparece inmediatamente en `cliente1`.
-Un mensaje enviado por `cliente1` aparece inmediatamente en `admin`.
-Los mensajes indican correctamente el usuario que los envió.
-Los mensajes permanecen después de reiniciar o recargar.
-Ejemplo:
-``` text
-
-admin: Hola cliente, mensaje desde admin
-
-cliente1: Hola admin, mensaje desde cliente
-```
----
-Flujo completo del chat**
-``` text
-
-React
-
-  ↓
-
-Login
-
-  ↓
-
-JWT
-
-  ↓
-
-Socket.IO Client
-
-  ↓
-
-Handshake con JWT
-
-  ↓
-
-Socket.IO Backend
-
-  ↓
-
-PostgreSQL
-
-  ↓
-
-Guardar mensaje
-
-  ↓
-
-io.emit()
-
-  ↓
-
-Todos los clientes conectados
-```
----
-Pruebas realizadas**
 Se verificaron:
-Login correcto.
-Credenciales incorrectas.
-Persistencia del token.
-Acceso protegido al chat.
-Redirección de usuarios no autenticados.
-Consulta de productos.
-Creación de productos.
-Actualización de productos.
-Eliminación de productos.
-Restricción visual según roles.
-Restricción real desde el backend.
-Conexión Socket.IO.
-Autenticación JWT del socket.
-Carga de últimos 10 mensajes.
-Envío de mensajes.
-Recepción de mensajes en tiempo real.
-Persistencia de mensajes.
-Comunicación entre dos usuarios simultáneos.
-Carga del perfil autenticado.
-Consulta de estadísticas del usuario.
-Actualización de username.
-Actualización de email.
-Manejo de email duplicado.
-Sincronización del usuario actualizado con AuthContext.
-Persistencia de los datos actualizados en `localStorage`.
-Cambio de contraseña.
-Validación de confirmación de nueva contraseña.
-Manejo de contraseña actual incorrecta.
----
-Estado del proyecto**
-Actualmente el frontend permite:
+
+-   Login correcto.
+-   Registro de usuario.
+-   Credenciales incorrectas.
+-   Persistencia del token.
+-   Rutas protegidas.
+-   Redirección de usuarios no autenticados.
+-   Consulta de productos.
+-   CRUD administrativo de productos.
+-   Restricciones según roles.
+-   Conexión y autenticación Socket.IO.
+-   Historial de mensajes.
+-   Envío y recepción de mensajes en tiempo real.
+-   Persistencia del chat.
+-   Comunicación entre múltiples usuarios.
+-   Carga del perfil autenticado.
+-   Consulta de estadísticas.
+-   Actualización de nombre de usuario.
+-   Actualización de email.
+-   Manejo de email duplicado.
+-   Sincronización con `AuthContext`.
+-   Persistencia del perfil actualizado en `localStorage`.
+-   Cambio de contraseña.
+-   Confirmación de nueva contraseña.
+-   Manejo de contraseña actual incorrecta.
+
+------------------------------------------------------------------------
+
+## Estado actual del proyecto
+
 ``` text
-
+✅ Registro
 ✅ Login
-
 ✅ JWT
-
 ✅ LocalStorage
-
 ✅ Context API
-
 ✅ React Router
-
 ✅ Rutas protegidas
-
 ✅ Roles admin / cliente
-
-✅ Consulta de productos
-
-✅ CRUD administrativo
-
 ✅ Axios
-
 ✅ Interceptor JWT
-
+✅ Consulta de productos
+✅ CRUD administrativo
 ✅ Socket.IO Client
-
 ✅ Chat en tiempo real
-
 ✅ Historial de mensajes
-
-✅ Persistencia
-
+✅ Persistencia del chat
 ✅ Comunicación entre múltiples usuarios
 ✅ Perfil de usuario
-✅ GET /users/me
-✅ GET /users/me/stats
-✅ GET /users/me/products
-✅ PATCH /users/me
+✅ Estadísticas del usuario
+✅ Productos creados por usuario
 ✅ Edición de username y email
 ✅ Sincronización AuthContext + LocalStorage
 ✅ Cambio de contraseña
-✅ PATCH /users/me/password
-✅ Confirmación de nueva contraseña
-✅ Estados de carga, éxito y error
 ```
----
-Integración con backend y aplicación móvil
-El frontend React consume la misma API central de EcoHome Store que
-puede reutilizarse desde la aplicación móvil Flutter.
+
+------------------------------------------------------------------------
+
+## Integración con la aplicación móvil
+
+El backend de EcoHome Store está preparado para ser consumido tanto por
+el frontend React como por la aplicación Flutter.
+
 ``` text
-                EcoHome Store API
-                       │
-             ┌─────────┴─────────┐
-             │                   │
-             ▼                   ▼
-        React + Vite          Flutter
-             │                   │
-             └─────────┬─────────┘
-                       ▼
-                  PostgreSQL
+                 EcoHome Store API
+                        │
+              ┌─────────┴─────────┐
+              │                   │
+              ▼                   ▼
+         React + Vite          Flutter
+              │                   │
+              └─────────┬─────────┘
+                        ▼
+                   PostgreSQL
 ```
-La lógica de autenticación, autorización, productos, perfil,
-estadísticas y chat permanece centralizada en el backend.
-El frontend web utiliza actualmente:
-``` text
-Axios       → API REST
-Socket.IO   → comunicación en tiempo real
-AuthContext → estado global de autenticación
-LocalStorage → persistencia de sesión web
-```
----
-Repositorios**
-Frontend**
-``` text
+
+Esto permite reutilizar desde Flutter la lógica de autenticación,
+usuarios, productos, perfil y demás servicios proporcionados por la API.
+
+------------------------------------------------------------------------
+
+## Repositorios
+
+### Frontend
 
 https://github.com/dabbi20/ecohome-store-frontend
-```
-Backend**
-``` text
+
+### Backend
 
 https://github.com/dabbi20/ecohome-store-api
-```
----
-Autor**
-David Manuel Carrasco Conde Proyecto académico desarrollado para EcoHome
-Store.
+
+------------------------------------------------------------------------
+
+## Autor
+
+**David Manuel Carrasco Conde**
+
+Proyecto académico desarrollado para EcoHome Store.
+
 Tecnologías principales:
+
 ``` text
-
 React
-
 Node.js
-
 Express
-
 PostgreSQL
-
 JWT
-
 Socket.IO
 ```
