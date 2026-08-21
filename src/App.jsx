@@ -5,6 +5,8 @@ import {
 } from "react-router-dom";
 
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import PublicRoute from "./components/PublicRoute.jsx";
+
 import PrivateLayout from "./layouts/PrivateLayout.jsx";
 
 import LoginPage from "./pages/LoginPage.jsx";
@@ -20,27 +22,40 @@ function App() {
         <Routes>
 
             {/* ========================================
-                RUTAS PÚBLICAS
+                RUTA INICIAL
             ======================================== */}
 
             <Route
                 path="/"
                 element={
                     <Navigate
-                        to="/login"
+                        to="/products"
                         replace
                     />
                 }
             />
 
+
+            {/* ========================================
+                RUTAS PÚBLICAS
+            ======================================== */}
+
             <Route
                 path="/login"
-                element={<LoginPage />}
+                element={
+                    <PublicRoute>
+                        <LoginPage />
+                    </PublicRoute>
+                }
             />
 
             <Route
                 path="/register"
-                element={<RegisterPage />}
+                element={
+                    <PublicRoute>
+                        <RegisterPage />
+                    </PublicRoute>
+                }
             />
 
 
@@ -72,6 +87,21 @@ function App() {
                 />
 
             </Route>
+
+
+            {/* ========================================
+                RUTA NO ENCONTRADA
+            ======================================== */}
+
+            <Route
+                path="*"
+                element={
+                    <Navigate
+                        to="/"
+                        replace
+                    />
+                }
+            />
 
         </Routes>
     );
