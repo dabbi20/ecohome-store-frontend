@@ -177,6 +177,7 @@ export default function ProductsPage() {
                     newProduct
                 ]);
 
+
                 // ========================================
                 // ACTUALIZAR CONTADOR
                 // ========================================
@@ -251,6 +252,7 @@ export default function ProductsPage() {
                     (product) => product.id !== id
                 )
             );
+
 
             // ========================================
             // DISMINUIR CONTADOR
@@ -482,10 +484,13 @@ export default function ProductsPage() {
 
 
                             {/* ========================
-                                BOTONES SOLO PARA ADMIN
+                                BOTONES SOLO PARA
+                                EL ADMIN PROPIETARIO
                             ======================== */}
 
-                            {user?.role === "admin" && (
+                            {user?.role === "admin" &&
+                                Number(product.created_by) ===
+                                Number(user?.id) && (
 
                                 <>
 
